@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+function _refactor
+{
+  if [ -n "$1" -a -n "$2" ]; then
+    echo "Refactoring name $1 to $2"
+    key="$1"
+    replace="$2"
+    for file in $(grep "$key" -rl .); do echo $file; sed -i "s/$key/$replace/g" $file; done
+  else
+    echo "Syntax: _refactor <key_word> <replace_word>"
+  fi
+}
