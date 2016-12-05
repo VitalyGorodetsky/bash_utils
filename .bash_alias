@@ -1,0 +1,30 @@
+# Tricks
+alias ..='cd ..'
+alias ...='cd ../..'
+
+alias dirstat='for t in dirs files links; do echo `find . -type ${t:0:1} | wc -l` $t; done 2> /dev/null'
+alias cpucount='grep -c processor /proc/cpuinfo'
+
+# Processes
+alias ps_thread='ps -eLf'
+alias ps_tree='ps -ejH'
+
+# Searching files
+alias find_='find . -name '
+alias dfind=' find . -type d '
+alias findnew='find . -type f -mtime -10'
+
+alias file_types='ls *\.* | cut -d . -f 2 | sort | uniq'
+alias file_types_r='tmp_file= _find_file.$$; for f in $(find -type f -name "*\.*"); do basename $f >> $tmp_file; done; cut $tmp_file -d . -f 2 | sort | uniq; rm $tmp_file'
+
+# Working with files and directories
+alias copy_dirtree='root_dir=$(mktemp -d); for d in $(find . -type d); do mkdir -p $root_dir/$f; done; echo "Target directory $root_dir";'
+alias copy_tree_bin='root_dir=out_tree_bin; mkdir -p $root_dir; for f in $(find . -type f -executable); do mkdir -p $root_dir/$(dirname $f); cp -v $f $root_dir/$f; done; echo "Target directory $root_dir";'
+alias copy_tree_lib='root_dir=out_tree_lib; mkdir -p $root_dir; for f in $(find . -type f -name "*\.a*" -o -name "*\.s*"); do mkdir -p $root_dir/$(dirname $f); cp -v $f $root_dir/$f; done; echo "Target directory $root_dir";'
+alias copy_tree_src='root_dir=out_tree_src; mkdir -p $root_dir; for f in $(find . -type f -name "*\.c*" -o -name "*\.h*"); do mkdir -p $root_dir/$(dirname $f); cp -v $f $root_dir/$f; done; echo "Target directory $root_dir";'
+
+# For development
+alias _build='make 2>&1 | colorize_make'
+alias _clean='make clean; rm -rf __*__'
+alias _compile_py='python -m compileall .'
+alias _run_test='find . -iname "test*" -executable -type f -exec {} \;'
